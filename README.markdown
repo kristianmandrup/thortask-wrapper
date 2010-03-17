@@ -7,8 +7,14 @@
 ## Run ##
 
 Iterate installed thor tasks and create bash wrappers in binaries folder
+
+`$ thor thorwrapper`
+
+Installs binaries to `~/binaries` by default if no destination argument given. 
                             
-`$ thor thorwrapper ~/binaries`
+`$ thor thorwrapper ~/my-binaries`
+
+Installs binaries to to destination `~/my-binaries`
 
 ## Usage: load for each terminal session ##
 
