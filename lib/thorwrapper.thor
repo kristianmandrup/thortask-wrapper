@@ -5,7 +5,9 @@ class Thorwrapper < Thor::Group
   include Thor::Actions
 
   # Define arguments and options
-  argument :destination, :type => :string, :default => "#{ENV['HOME']}/binaries", :optional => true
+  argument :destination, :type => :string, :default => "#{ENV['HOME']}/binaries", :optional => true, :banner => 'destination for the generated wrappers'
+
+  class_option :tasks, :type => :array, :default => [], :banner => 'list of tasks to generate wrapper files for'
 
   def self.source_root                   
     template_path(__FILE__) # tries ROOT/templates and then ROOT/lib/templates        
@@ -19,7 +21,7 @@ class Thorwrapper < Thor::Group
       yaml = YAML.load_file(thor_yml_file) 
       # Iterate each task
       yaml.each_pair do |task_name, task|
-        # Generate bash file with name of task
+        # Generate bash file with name of task 
         generate_bash_file(task_name, task)        
       end       
     end
@@ -28,6 +30,8 @@ class Thorwrapper < Thor::Group
 protected
   def generate_bash_file(task_name, task)
     task_name = task_name.gsub /\.thor/, ''
+
+    return false if options[:tasks] && !options[:tasks].include?(task_name)        
 
     FileUtils.mkdir_p(destination) if !File.directory?(destination)
     bash_file_name = File.join(destination, "#{task_name}.sh")

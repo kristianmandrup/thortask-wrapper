@@ -10,27 +10,37 @@ Iterate installed thor tasks and create bash wrappers in binaries folder
 
 `$ thor thorwrapper`
 
-Installs binaries to `~/binaries` by default if no destination argument given. 
+Generates executable shell script wrappers. The scripts are placed in the default destination `~/binaries`. 
                             
 `$ thor thorwrapper ~/my-binaries`
 
-Installs binaries to to destination `~/my-binaries`
+Generates executable shell script wrappers. The scripts are placed in the destination `~/my-binaries`
 
-## Usage: load for each terminal session ##
+`$ thor thorwrapper --tasks git gem`
 
-`$ mate ~/.bash_profile`
+Generates executable shell script wrappers for the 'git' and 'gem' tasks. 
+Scripts are placed in the destination `~/my-binaries`
 
+## Usage: bash_profile config #
 <pre>
-# add similar lines to .bash_profile to load bash scripts  
-load 'git'
-load 'rails'
-
 # utility function to load binary
 load() {
   source "~/binaries/$1.sh"  
 }
+</pre>
 
-Open new terminal session
+## Usage: auto-load wrapper functions for terminal session ##
+
+To auto-load the shell scripts and thus the wrapper functions for each terminal session.
+
+`$ mate ~/.bash_profile`
+
+<pre>
+# add lines to .bash_profile to load bash scripts  
+load 'git'
+load 'rails'
+
+Open new terminal session. The scripts are auto-loaded and immediately all accessible.
 
 `$ git_project my_proj --return`
 
@@ -38,7 +48,7 @@ Open new terminal session
 
 </pre>
 
-## Usage: load wrappers when needed ##
+## Usage: load wrapper functions when needed ##
 
 `$ load git`
             
@@ -46,11 +56,20 @@ Open new terminal session
 
 `$ git_update --return`
 
+<pre>
+$ gem_publish
+=> ERROR (gem script not yet loaded!)
+</pre> 
+
 `$ load gem`
             
 `$ gem_project my_gem_proj --return`
 
 `$ gem_publish`
+
+## TODO #
+
+Suggestions are welcome!
 
 ## Copyright info #
 
